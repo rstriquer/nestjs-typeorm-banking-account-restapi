@@ -1,10 +1,12 @@
+import { DataSource } from 'typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { HealthCheckModule } from './health-check';
+import { dataSourceOptions } from './providers/databases/sqlite';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [HealthCheckModule, TypeOrmModule.forRoot(dataSourceOptions)],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
