@@ -4,7 +4,7 @@ services:
     image: taydy/dynamodb-manager
     restart: 'unless-stopped'
     ports:
-      - ${DYNAMODB_MANAGER_PORT:-8080}:80
+      - ${DB_PORT:-8080}:80
   localstack:
     image: localstack/localstack:1.0.1
     volumes:
@@ -30,4 +30,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${DINAMODB_STORAGE_PATH:-./storage/docker/localstack}
+      device: ${DB_DATABASE:-./storage/docker/localstack}
