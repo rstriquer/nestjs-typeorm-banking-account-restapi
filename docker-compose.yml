@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  client:
+    image: taydy/dynamodb-manager
+    restart: 'unless-stopped'
+    ports:
+      - ${DYNAMODB_MANAGER_PORT:-8080}:80
+  localstack:
+    image: localstack/localstack:1.0.1
+    volumes:
+      - localstack-vol:/tmp/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${TMPDIR:-/tmp/localstack}:/tmp/localstack
+    ports:
+      - 8443:443
+      - ${LOCALSTACK_ENDPOINT:-4566}:4566
+    environment:
+      - SERVICES=dynamodb
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOST_TMP_FOLDER=${TMPDIR:-/tmp/localstack}
+      - LAMBDA_EXECUTOR=docker
+      - PERSISTENCE=1
+      - DISABLE_CORS_CHECKS=1
+
+volumes:
+  localstack-vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DINAMODB_STORAGE_PATH:-./storage/docker/localstack}
