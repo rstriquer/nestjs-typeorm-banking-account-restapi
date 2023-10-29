@@ -2,72 +2,67 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Simple Banking API
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A simple REST API built in NestJS using TypeORM and SWAGGER.
 
-## Description
+## Used Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Back-end**: Nest v10; NodeJS v18.18.2; Jest v29;
 
-## Installation
+**Test**: SQLite 3;
+
+**Development Environment**: nvm 0.39; npm 9.8;
+
+## Installing
+
+**IMPORTANT**: If you don't have the correct version of NodeJS installed, run `nvm install` to install it first;
+
+First of all clone the project on you local! After cloning the project on your local machine, you will have to configure the environment by making a copy of the example configuration file (the `.env.exemple` file) to `.env` and adjusting the values, according to your local demand. But most of the settings are already very generic so you shouldn't need to change anything.
+
+Then run the commands bellow:
 
 ```bash
-$ npm install
+cp .env.example .env
+nvm use;
+npm install;
 ```
 
-## Running the app
+After everything is installed then you should run the migrations commands as instructed below:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run typeorm migration:run
 ```
 
-## Test
+If no you see no error you are all set to git your first run.
+
+# Running the app
+
+## Dev env
+
+The environment is composed of a local sqlite3 to facilitate the configuration of the database in the storage directory (so you know that the database is there and it is easier to delete it. It ensures that you also deleted the database repository when deleting the project from the local disk) and to run the project, just run the NestJS command available in the project with the command `npm run start:dev` and the system will be available in your local environment.
+
+### Clear caches
+
+To clear nestjs caches from the project home directory you just remove the `/dist` directory and restart the application ...
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+rm -rf ./dist
+npm run start:dev
 ```
 
-## Support
+To clear TypeORM cache you just run ...
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+npm run typeorm cache:clear
+```
 
-## Stay in touch
+## Unit testing
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+To run the unit tests at the project run the command `npm run test`.
 
-## License
+If you are building any new unit testing use the `npm run test:watch` command.
 
-Nest is [MIT licensed](LICENSE).
+# License
+
+[MIT](https://choosealicense.com/licenses/mit/)
