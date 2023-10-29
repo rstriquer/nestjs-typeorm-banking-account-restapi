@@ -9,7 +9,6 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('/api');
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: process.env.SWAGGER_API_VERSION || '1.0',
@@ -25,7 +24,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   fs.writeFileSync('./swagger-spec.json', JSON.stringify(document));
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('', app, document);
 
   app.useGlobalPipes(
     new ValidationPipe({
