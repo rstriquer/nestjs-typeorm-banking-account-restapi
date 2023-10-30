@@ -3,13 +3,14 @@ import {
   SearchMovementDto,
   SearchMovementsResultDto,
 } from './dto';
-import { Movement, MovementType } from '../entities';
+import { Movement, MovementTypeEnum } from '../entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
+import { AccountService } from '../accounts';
 import { MovementService } from './movement.service';
 
-const USER_REPOSITORY_TOKEN = getRepositoryToken(Account);
+const USER_REPOSITORY_TOKEN = getRepositoryToken(Movement);
 
 describe('MovementService', () => {
   let testing: MovementService;
@@ -18,6 +19,7 @@ describe('MovementService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        AccountService,
         MovementService,
         {
           provide: USER_REPOSITORY_TOKEN,
@@ -33,7 +35,7 @@ describe('MovementService', () => {
     }).compile();
 
     testing = module.get<MovementService>(MovementService);
-    repository = module.get<Repository<Account>>(USER_REPOSITORY_TOKEN);
+    repository = module.get<Repository<Movement>>(USER_REPOSITORY_TOKEN);
   });
 
   it('should be defined', () => {

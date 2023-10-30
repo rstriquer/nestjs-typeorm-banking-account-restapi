@@ -32,15 +32,11 @@ describe('MovementModule', () => {
                     movements: [
                       {
                         id: 1,
-                        name: 'test 1',
                         type: MovementTypeEnum.WITHDRAW,
-                        balance: 0,
                       },
                       {
                         id: 2,
-                        name: 'test 2',
                         type: MovementTypeEnum.WITHDRAW,
-                        balance: 0,
                       },
                     ],
                   } as SearchMovementsResultDto;
@@ -48,10 +44,7 @@ describe('MovementModule', () => {
                 findOne: jest.fn((id) => {
                   return {
                     id: id,
-                    name: 'test',
-                    type: MovementTypeEnum.WITHDRAW,
-                    balance: 0,
-                  } as Account;
+                  } as Movement;
                 }),
                 update: jest.fn(),
                 remove: jest.fn(),
