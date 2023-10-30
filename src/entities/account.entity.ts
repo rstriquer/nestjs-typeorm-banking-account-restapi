@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { accountType } from './account-type.enum';
 
-@Entity()
+@Entity('accounts')
 export class Account {
   @PrimaryGeneratedColumn('increment')
   id: number;
