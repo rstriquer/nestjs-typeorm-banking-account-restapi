@@ -72,4 +72,15 @@ export class AccountService {
     const account = await this.findOne(id);
     return this.repository.remove(account);
   }
+
+  /**
+   * Update the balance field of an account on the system
+   * @param id
+   * @param value May be positive of negative value;
+   */
+  async updateBalance(id: number, value: number) {
+    const account: Account = await this.findOne(id);
+    account.balance += value;
+    return this.repository.save(account);
+  }
 }
