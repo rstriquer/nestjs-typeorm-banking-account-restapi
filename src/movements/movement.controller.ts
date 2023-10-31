@@ -3,6 +3,7 @@ import {
   SearchMovementDto,
   SearchMovementsResultDto,
 } from './dto';
+import { Movement } from '../entities';
 import { BadRequestExceptionDto } from '../common';
 import {
   Body,
@@ -39,19 +40,17 @@ export class MovementController {
     status: HttpStatus.CREATED,
     description:
       'The endpoint is working as expected and a new movement was created.',
-    type: CreateMovementDto,
+    type: Movement,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description:
       'Bad Request. The "x-user" user was missing in the query HEADERS.',
-    type: CreateMovementDto,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description:
       'Unauthorized. The "x-user" header identification and the "origin" field identification are NOT the same!',
-    type: CreateMovementDto,
   })
   @Version('1')
   @ApiBody({ type: CreateMovementDto })
@@ -79,19 +78,17 @@ export class MovementController {
     status: HttpStatus.CREATED,
     description:
       'The endpoint is working as expected and a new movement was created.',
-    type: CreateMovementDto,
+    type: Movement,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description:
       'Bad Request. The "x-user" user was missing in the query HEADERS.',
-    type: CreateMovementDto,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description:
       'Unauthorized. The "x-user" header identification and the "origin" field identification are NOT the same!',
-    type: CreateMovementDto,
   })
   @Version('1')
   @ApiBody({ type: CreateMovementDto })
@@ -129,13 +126,11 @@ export class MovementController {
     status: HttpStatus.BAD_REQUEST,
     description:
       'Bad Request. The "x-user" user was missing in the query HEADERS.',
-    type: CreateMovementDto,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description:
       'Unauthorized. The "x-user" header identification and the "origin" field identification are NOT the same!',
-    type: CreateMovementDto,
   })
   @ApiBadRequestResponse({
     description: 'One or more parameters was incorrect.',
@@ -177,13 +172,11 @@ export class MovementController {
     status: HttpStatus.BAD_REQUEST,
     description:
       'Bad Request. The "x-user" user was missing in the query HEADERS.',
-    type: CreateMovementDto,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description:
       'Unauthorized. The "x-user" header identification and the "origin" field identification are NOT the same!',
-    type: CreateMovementDto,
   })
   @ApiBody({ type: MovementDto })
   @Version('1')
