@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { accountType } from './account-type.enum';
+import { AccountTypeEnum } from './account-type.enum';
 
 @Entity('accounts')
 export class Account {
@@ -10,8 +10,8 @@ export class Account {
   name: string;
 
   @Column('simple-enum', {
-    enum: accountType,
-    default: accountType.CORRENTE,
+    enum: AccountTypeEnum,
+    default: AccountTypeEnum.CORRENTE,
   })
   type: string;
 

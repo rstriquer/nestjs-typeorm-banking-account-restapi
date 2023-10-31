@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
-import { accountType } from '../../entities';
+import { AccountTypeEnum } from '../../entities';
 
 export class SearchAccountDto {
   @ApiProperty({
@@ -17,5 +17,5 @@ export class SearchAccountDto {
       'Account type. Could be: "Corrente" or "Poupança". Could be used partial values. Ex: "o" will return all records with both "Corrente" and "Poupança".',
   })
   @IsOptional()
-  type: accountType;
+  type: AccountTypeEnum;
 }

@@ -4,7 +4,7 @@ import {
   SearchAccountsResultDto,
   UpdateAccountDto,
 } from './dto';
-import { Account, accountType } from '../entities';
+import { Account, AccountTypeEnum } from '../entities';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccountController } from './account.controller';
 import { AccountService } from './account.service';
@@ -42,7 +42,7 @@ describe('AccountController', () => {
   it('create new user is ok', () => {
     const payload: AccountDto = {
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
     } as AccountDto;
     const expected: Account = {
       id: 10,
@@ -60,7 +60,7 @@ describe('AccountController', () => {
   it('create deals with throw Exception', () => {
     const payload: AccountDto = {
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
     } as AccountDto;
 
     jest
@@ -98,7 +98,7 @@ describe('AccountController', () => {
   it('update a user is ok', () => {
     const payload: UpdateAccountDto = {
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
     } as UpdateAccountDto;
     const expected: Account = {
       id: 10,

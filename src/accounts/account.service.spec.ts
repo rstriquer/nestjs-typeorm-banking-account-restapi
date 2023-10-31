@@ -4,7 +4,7 @@ import {
   SearchAccountsResultDto,
   UpdateAccountDto,
 } from './dto';
-import { Account, accountType } from '../entities';
+import { Account, AccountTypeEnum } from '../entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -44,7 +44,7 @@ describe('AccountService', () => {
   it('create is working ok', () => {
     const payload: AccountDto = {
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
     } as AccountDto;
     const expected: Account = {
       id: 10,
@@ -63,7 +63,7 @@ describe('AccountService', () => {
   it('findAll is working ok', () => {
     const payload: SearchAccountDto = {
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
     } as SearchAccountDto;
     const accountList = [new Account(), new Account()];
     const expected: SearchAccountsResultDto = {
@@ -80,7 +80,7 @@ describe('AccountService', () => {
     const expected: Account = {
       id: 10,
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
       balance: 0,
     } as Account;
 
@@ -92,7 +92,7 @@ describe('AccountService', () => {
     const expected: Account = {
       id: 10,
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
       balance: 0,
     } as Account;
     const payload: UpdateAccountDto = {

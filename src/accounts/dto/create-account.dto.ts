@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MinLength, MaxLength, IsEnum } from 'class-validator';
-import { accountType } from '../../entities';
+import { AccountTypeEnum } from '../../entities';
 
 export class CreateAccountDto {
   @ApiProperty({
@@ -18,6 +18,6 @@ export class CreateAccountDto {
     description:
       'Account type. Could be one of the options: "Corrente" or "Poupança".',
   })
-  @IsEnum(accountType)
+  @IsEnum(AccountTypeEnum)
   type: string;
 }
