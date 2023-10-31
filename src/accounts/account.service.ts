@@ -15,7 +15,7 @@ export class AccountService {
   private readonly dataSource: DataSource;
 
   @InjectRepository(Account, 'default')
-  private repository: Repository<Account>;
+  private readonly repository: Repository<Account>;
 
   async create(createAccountDto: CreateAccountDto): Promise<Account> {
     const payload = {
