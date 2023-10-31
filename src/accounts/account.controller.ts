@@ -135,9 +135,6 @@ export class AccountController {
     @Body() updateAccountDto: UpdateAccountDto,
   ) {
     return await this.service.update(+id, updateAccountDto);
-    // if (result === false) {
-
-    // }
   }
 
   // =========================================================================
