@@ -1,20 +1,21 @@
-import { Account } from '../entities';
+import { Account, Movement } from '../entities';
 import {
   CreateAccountDto,
   SearchAccountDto,
   SearchAccountsResultDto,
 } from './dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { UpdateAccountDto } from './dto/update-account.dto';
-import { Repository, Like } from 'typeorm';
+import { DataSource, Repository, Like } from 'typeorm';
 
 @Injectable()
 export class AccountService {
-  constructor(
-    @InjectRepository(Account, 'default')
-    private repository: Repository<Account>,
-  ) {}
+  @InjectDataSource()
+  private readonly dataSource: DataSource;
+
+  @InjectRepository(Account, 'default')
+  private repository: Repository<Account>;
 
   async create(createAccountDto: CreateAccountDto): Promise<Account> {
     const payload = {
@@ -68,9 +69,32 @@ export class AccountService {
     return this.repository.save(payload);
   }
 
-  async remove(id: number): Promise<Account> {
+  /**
+   * Delete or update lines on accounts table
+   * - When the account does not have references to it in the "originId" or
+   * "destinyId" columns in the "movements" table then the record is effectively
+   * deleted from the table. Otherwise, the line is just TAGED as deleted in
+   * the accounts table, changing its "name" field contents to "* (DELETED)"
+   * @param id
+   * @returns
+   */
+  async remove(id: number): Promise<null> {
     const account = await this.findOne(id);
-    return this.repository.remove(account);
+    this.dataSource.manager.transaction(async (entityManager) => {
+      // must await before run the count query otherwise may find many
+      await entityManager.query('DELETE FROM movements WHERE userid = ' + id);
+      const found = await entityManager.query(
+        'SELECT count(1) as qtd FROM movements WHERE ' +
+          id +
+          ' IN (originId, destinyId)',
+      );
+      if (found[0].qtd === 0) {
+        this.repository.remove(account);
+        return;
+      }
+      this.repository.update(id, { name: '* (DELETED ACCOUNT)' });
+    });
+    return;
   }
 
   /**
