@@ -31,6 +31,7 @@ export class CreateMovementDto {
   @IsInt()
   @Min(1)
   @IsPositive()
+  @IsOptional()
   destiny: number;
 
   @ApiProperty({
