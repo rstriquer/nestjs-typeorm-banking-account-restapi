@@ -6,12 +6,22 @@ import { HealthCheckModule } from './health-check';
 import { AccountModule } from './accounts';
 import { MovementModule } from './movements';
 import { dataSourceOptions } from './providers/databases/sqlite';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      ...dataSourceOptions,
-      name: 'default',
+    TypeOrmModule.forRootAsync({
+      useFactory() {
+        return dataSourceOptions;
+      },
+      async dataSourceFactory(options) {
+        if (!options) {
+          throw new Error('Invalid options passed');
+        }
+        console.log(options);
+
+        return addTransactionalDataSource(new DataSource(options));
+      },
     }),
     AccountModule,
     MovementModule,

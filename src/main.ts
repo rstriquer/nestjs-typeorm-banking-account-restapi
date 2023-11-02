@@ -2,11 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function bootstrap() {
+  initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
 
   app.enableVersioning({
