@@ -19,8 +19,11 @@ describe('MovementService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AccountService,
         MovementService,
+        {
+          provide: AccountService,
+          useValue: {},
+        },
         {
           provide: USER_REPOSITORY_TOKEN,
           useValue: {
@@ -40,6 +43,7 @@ describe('MovementService', () => {
 
   it('should be defined', () => {
     expect(testing).toBeDefined();
+    expect(repository).toBeDefined();
   });
 
   // it('create is working ok', () => {
