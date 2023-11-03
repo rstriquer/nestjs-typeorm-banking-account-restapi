@@ -5,14 +5,14 @@ import {
   SearchAccountsResultDto,
 } from './dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateAccountDto } from './dto/update-account.dto';
-import { DataSource, Repository, Like } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 
 @Injectable()
 export class AccountService {
-  @InjectDataSource()
-  private readonly dataSource: DataSource;
+  @InjectRepository(Movement, 'default')
+  private readonly movementRepository: Repository<Movement>;
 
   @InjectRepository(Account, 'default')
   private readonly repository: Repository<Account>;
@@ -78,22 +78,23 @@ export class AccountService {
    * @param id
    * @returns
    */
-  async remove(id: number): Promise<null> {
-    const account = await this.findOne(id);
-    this.dataSource.manager.transaction(async (entityManager) => {
-      // must await before run the count query otherwise may find many
-      await entityManager.query('DELETE FROM movements WHERE userid = ' + id);
-      const found = await entityManager.query(
-        'SELECT count(1) as qtd FROM movements WHERE ' +
-          id +
-          ' IN (originId, destinyId)',
-      );
-      if (found[0].qtd === 0) {
-        this.repository.remove(account);
-        return;
-      }
-      this.repository.update(id, { name: '* (DELETED ACCOUNT)' });
-    });
+  async remove(id: number): Promise<void> {
+    await this.findOne(id);
+
+    // must await before run the count query otherwise may find many
+    await this.movementRepository.delete({ userId: id });
+
+    const found = await this.movementRepository.manager.query(
+      'SELECT count(1) as qtd FROM movements WHERE ' +
+        id +
+        ' IN (originId, destinyId)',
+    );
+    if (found[0].qtd === 0) {
+      this.repository.delete({ id: id });
+      return;
+    }
+    await this.repository.update(id, { name: '* (DELETED ACCOUNT)' });
+
     return;
   }
 

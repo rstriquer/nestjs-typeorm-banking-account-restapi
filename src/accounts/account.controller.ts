@@ -1,4 +1,10 @@
-import { AccountDto, SearchAccountDto, SearchAccountsResultDto } from './dto';
+import {
+  AccountDto,
+  SearchAccountDto,
+  SearchAccountsResultDto,
+  CreateAccountDto,
+  UpdateAccountDto,
+} from './dto';
 import { BadRequestExceptionDto } from '../common';
 import {
   Body,
@@ -21,8 +27,7 @@ import {
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { AccountService } from './account.service';
-import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountDto } from './dto/update-account.dto';
+import { Transactional } from 'typeorm-transactional';
 
 @ApiTags('accounts')
 @Controller('accounts')
@@ -160,7 +165,8 @@ export class AccountController {
     description: 'The identification code of the account to delete.',
   })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Transactional()
+  async remove(@Param('id') id: string) {
     return this.service.remove(+id);
   }
 }
