@@ -44,6 +44,8 @@ export class MovementService {
   ): Promise<Movement> {
     const movement = {
       ...payload,
+      origin: payload.origin,
+      destiny: payload.destiny,
       amount: +payload.amount,
       userId: userId,
     } as Movement;

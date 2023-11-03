@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   ManyToOne,
-  Int32,
+  JoinColumn,
 } from 'typeorm';
 import { MovementTypeEnum } from './movement-type.enum';
 import { MovementStatusEnum } from './movement-status.enum';
@@ -27,10 +27,16 @@ export class Movement {
   })
   status: string;
 
-  @ManyToOne((t) => Account)
+  // originId: number;
+
+  @Column({ nullable: true })
+  @ManyToOne(() => Account, (account) => account.id, { eager: true })
   origin: number;
 
-  @ManyToOne((t) => Account)
+  // destinyId: number;
+
+  @Column({ nullable: true })
+  @ManyToOne(() => Account, (account) => account.id, { eager: true })
   destiny: number;
 
   // date and time of the operation
