@@ -1,4 +1,4 @@
-export enum accountType {
+export enum AccountTypeEnum {
   CORRENTE = 'Corrente',
   POUPANCA = 'Poupança',
 }

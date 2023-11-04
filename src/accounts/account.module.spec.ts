@@ -1,4 +1,4 @@
-import { Account, accountType } from '../entities';
+import { Account, AccountTypeEnum } from '../entities';
 import { AccountDto, SearchAccountsResultDto, UpdateAccountDto } from './dto';
 import * as request from 'supertest';
 import { HttpStatus, INestApplication } from '@nestjs/common';
@@ -25,13 +25,13 @@ describe('AccountModule', () => {
                       {
                         id: 1,
                         name: 'test 1',
-                        type: accountType.CORRENTE,
+                        type: AccountTypeEnum.CORRENTE,
                         balance: 0,
                       },
                       {
                         id: 2,
                         name: 'test 2',
-                        type: accountType.CORRENTE,
+                        type: AccountTypeEnum.CORRENTE,
                         balance: 0,
                       },
                     ],
@@ -41,7 +41,7 @@ describe('AccountModule', () => {
                   return {
                     id: id,
                     name: 'test',
-                    type: accountType.CORRENTE,
+                    type: AccountTypeEnum.CORRENTE,
                     balance: 0,
                   } as Account;
                 }),
@@ -68,7 +68,7 @@ describe('AccountModule', () => {
   it('POST /v1/accounts (create)', async () => {
     const payload: AccountDto = {
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
     } as AccountDto;
     const expected: Account = {
       id: 10,
@@ -96,13 +96,13 @@ describe('AccountModule', () => {
         {
           id: 1,
           name: 'test 1',
-          type: accountType.CORRENTE,
+          type: AccountTypeEnum.CORRENTE,
           balance: 0,
         },
         {
           id: 2,
           name: 'test 2',
-          type: accountType.CORRENTE,
+          type: AccountTypeEnum.CORRENTE,
           balance: 0,
         },
       ],
@@ -124,7 +124,7 @@ describe('AccountModule', () => {
     const expected: Account = {
       id: 10,
       name: 'test',
-      type: accountType.CORRENTE,
+      type: AccountTypeEnum.CORRENTE,
       balance: 0,
     } as Account;
 

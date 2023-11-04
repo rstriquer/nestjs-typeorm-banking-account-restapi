@@ -1,4 +1,4 @@
-import { DataSource, DatabaseType, DataSourceOptions } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -13,5 +13,4 @@ export const dataSourceOptions: DataSourceOptions = {
   logging: true,
 };
 
-const dataSource = new DataSource(dataSourceOptions);
-export default dataSource;
+export const dataSource = new DataSource(dataSourceOptions);

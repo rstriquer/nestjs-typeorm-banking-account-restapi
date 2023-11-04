@@ -1,4 +1,4 @@
-import { Account } from '../entities';
+import { Account, Movement } from '../entities';
 import {
   CreateAccountDto,
   SearchAccountDto,
@@ -11,10 +11,11 @@ import { Repository, Like } from 'typeorm';
 
 @Injectable()
 export class AccountService {
-  constructor(
-    @InjectRepository(Account, 'default')
-    private repository: Repository<Account>,
-  ) {}
+  @InjectRepository(Movement, 'default')
+  private readonly movementRepository: Repository<Movement>;
+
+  @InjectRepository(Account, 'default')
+  private readonly repository: Repository<Account>;
 
   async create(createAccountDto: CreateAccountDto): Promise<Account> {
     const payload = {
@@ -68,8 +69,43 @@ export class AccountService {
     return this.repository.save(payload);
   }
 
-  async remove(id: number): Promise<Account> {
-    const account = await this.findOne(id);
-    return this.repository.remove(account);
+  /**
+   * Delete or update lines on accounts table
+   * - When the account does not have references to it in the "originId" or
+   * "destinyId" columns in the "movements" table then the record is effectively
+   * deleted from the table. Otherwise, the line is just TAGED as deleted in
+   * the accounts table, changing its "name" field contents to "* (DELETED)"
+   * @param id
+   * @returns
+   */
+  async remove(id: number): Promise<void> {
+    await this.findOne(id);
+
+    // must await before run the count query otherwise may find many
+    await this.movementRepository.delete({ userId: id });
+
+    const found = await this.movementRepository.manager.query(
+      'SELECT count(1) as qtd FROM movements WHERE ' +
+        id +
+        ' IN (originId, destinyId)',
+    );
+    if (found[0].qtd === 0) {
+      this.repository.delete({ id: id });
+      return;
+    }
+    await this.repository.update(id, { name: '* (DELETED ACCOUNT)' });
+
+    return;
+  }
+
+  /**
+   * Update the balance field of an account on the system
+   * @param id
+   * @param value May be positive of negative value;
+   */
+  async updateBalance(id: number, value: number) {
+    const account: Account = await this.findOne(id);
+    account.balance += value;
+    return this.repository.save(account);
   }
 }

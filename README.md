@@ -42,6 +42,8 @@ If no you see no error you are all set to git your first run.
 
 The environment is composed of a local sqlite3 to facilitate the configuration of the database in the storage directory (so you know that the database is there and it is easier to delete it. It ensures that you also deleted the database repository when deleting the project from the local disk) and to run the project, just run the NestJS command available in the project with the command `npm run start:dev` and the system will be available in your local environment.
 
+To check the API endpoints you can call on the URL `http://127.0.0.1:3000/` on the browser of your preference (or the similar resulting address that would have formed according to your modifications to `.env`).
+
 ### Clear caches
 
 To clear nestjs caches from the project home directory you just remove the `/dist` directory and restart the application ...
